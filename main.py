@@ -15,6 +15,7 @@ app_id = os.environ["APP_ID"]
 app_secret = os.environ["APP_SECRET"]
 
 user_id = os.environ["USER_ID"]
+xiaoji = os.environ["XIAOJI"]
 template_id = os.environ["TEMPLATE_ID"]
 
 
@@ -50,4 +51,5 @@ wm = WeChatMessage(client)
 wea, temperature = get_weather()
 data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()}}
 res = wm.send_template(user_id, template_id, data)
+res = wm.send_template(xiaoji, template_id, data)
 print(res)
