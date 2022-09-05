@@ -15,7 +15,7 @@ app_id = os.environ["APP_ID"]
 app_secret = os.environ["APP_SECRET"]
 
 user_id = os.environ["USER_ID"]
-# xiaoji = os.environ["XIAOJI"]
+xiaoji = os.environ["XIAOJI"]
 template_id = os.environ["TEMPLATE_ID"]
 
 
@@ -44,12 +44,15 @@ def get_words():
 def get_random_color():
   return "#%06x" % random.randint(0, 0xFFFFFF)
 
-
+def get_shici():
+  words=requests.get('https://v1.hitokoto.cn/?c=j')
+#   print(words.json()['hitokoto'])
+  return words.json()['hitokoto']
 client = WeChatClient(app_id, app_secret)
 
 wm = WeChatMessage(client)
 wea, temperature = get_weather()
-data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()}}
+data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"shici":{"value":get_shici()}}
 res = wm.send_template(user_id, template_id, data)
-# res = wm.send_template(xiaoji, template_id, data)
+res = wm.send_template(xiaoji, template_id, data)
 print(res)
