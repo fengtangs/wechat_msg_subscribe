@@ -10,7 +10,7 @@ import pytz
 # 生成一个时区对象
 tzone = pytz.timezone("Asia/Shanghai")
 # 如果不传时区对象，就默认当前用户当前所在时区的当前时间
-today = datetime.now(tzone).strftime("%Y-%m-%d %H:%M:%S")
+today = datetime.now(tzone)
 start_date = os.environ['START_DATE']
 city = os.environ['CITY']
 birthday = os.environ['BIRTHDAY']
