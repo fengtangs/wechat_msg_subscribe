@@ -8,9 +8,10 @@ import random
 import pytz
 
 # # 生成一个时区对象
-# tzone = pytz.timezone("Asia/Shanghai")
+tzone = pytz.timezone("Asia/Shanghai")
 # # 如果不传时区对象，就默认当前用户当前所在时区的当前时间
-today = datetime.now()
+today = datetime.now(tzone) # 加拿大系统当前的时间
+# today = datetime.now()
 
 start_date = os.environ['START_DATE']
 city = os.environ['CITY']
@@ -31,12 +32,13 @@ def get_weather():
   return weather['weather'], math.floor(weather['temp'])
 
 def get_count():
-  delta = today - datetime.strptime(start_date, "%Y-%m-%d")
+  delta = today - datetime.strptime(start_date, "%Y-%m-%d").astimezone(tzone)
+  print(delta)
   return delta.days
 
 def get_birthday():
-  next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d")
-  if next < datetime.now():
+  next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d").astimezone(tzone)
+  if next < today:
     next = next.replace(year=next.year + 1)
   return (next - today).days
 
@@ -58,7 +60,7 @@ client = WeChatClient(app_id, app_secret)
 wm = WeChatMessage(client)
 wea, temperature = get_weather()
 data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"shici":{"value":get_shici()}}
-# res = wm.send_template(user_id, template_id, data)
-res = wm.send_template(xiaoji, template_id, data)
+res = wm.send_template(user_id, template_id, data)
+# res = wm.send_template(xiaoji, template_id, data)
 print(res)
-print(today)
+# print(dayss)
