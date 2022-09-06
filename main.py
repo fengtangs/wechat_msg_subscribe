@@ -6,6 +6,7 @@ import requests
 import os
 import random
 import pytz
+from borax.calendars.festivals import  LunarSchema
 
 # # 生成一个时区对象
 tzone = pytz.timezone("Asia/Shanghai")
@@ -37,10 +38,12 @@ def get_count():
   return delta.days
 
 def get_birthday():
-  next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d").astimezone(tzone)
-  if next < today:
-    next = next.replace(year=next.year + 1)
-  return (next - today).days
+#   next = datetime.strptime(str(date.today().year) + "-" + birthday, "%Y-%m-%d").astimezone(tzone)
+#   if next < today:
+#     next = next.replace(year=next.year + 1)
+#   return (next - today).days
+  ls = LunarSchema(month=12, day=12)
+  return str(ls.countdown())
 
 def get_shici():
   words=requests.get('https://v1.hitokoto.cn/?c=j')
@@ -52,6 +55,6 @@ wm = WeChatMessage(client)
 wea, temperature = get_weather()
 data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"shici":{"value":get_shici()}}
 res = wm.send_template(user_id, template_id, data)
-res = wm.send_template(xiaoji, template_id, data)
+# res = wm.send_template(xiaoji, template_id, data)
 print(res)
 # print(dayss)
