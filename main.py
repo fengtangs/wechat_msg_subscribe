@@ -11,6 +11,7 @@ import pytz
 tzone = pytz.timezone("Asia/Shanghai")
 # # 如果不传时区对象，就默认当前用户当前所在时区的当前时间
 today = datetime.now(tzone) # 加拿大系统当前的时间
+print(today)
 # today = datetime.now()
 
 start_date = os.environ['START_DATE']
@@ -33,7 +34,6 @@ def get_weather():
 
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d").astimezone(tzone)
-  print(delta)
   return delta.days
 
 def get_birthday():
@@ -41,15 +41,6 @@ def get_birthday():
   if next < today:
     next = next.replace(year=next.year + 1)
   return (next - today).days
-
-def get_words():
-  words = requests.get("https://api.shadiao.pro/chp")
-  if words.status_code != 200:
-    return get_words()
-  return words.json()['data']['text']
-
-def get_random_color():
-  return "#%06x" % random.randint(0, 0xFFFFFF)
 
 def get_shici():
   words=requests.get('https://v1.hitokoto.cn/?c=j')
