@@ -55,6 +55,6 @@ wm = WeChatMessage(client)
 wea, temperature = get_weather()
 data = {"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"shici":{"value":get_shici()}}
 res = wm.send_template(user_id, template_id, data)
-# res = wm.send_template(xiaoji, template_id, data)
+res = wm.send_template(xiaoji, template_id, data)
 print(res)
 # print(dayss)
